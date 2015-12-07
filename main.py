@@ -82,7 +82,7 @@ br.submit()
 from lxml import html
 import requests
 
-no_of_shops=len(dict['Heureka.cz']['Login_1']['Shop'])-1
+no_of_shops=len(dict['Heureka.cz']['Login_1']['Shop'])
 
 for index in range(0,no_of_shops):
     shop = dict['Heureka.cz']['Login_1']['Shop'][index]
