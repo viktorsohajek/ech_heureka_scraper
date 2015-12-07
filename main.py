@@ -18,7 +18,7 @@ dict['Zbozi.cz'] = {}
 dict['Heureka.cz']['Login_1'] = {'Login': 'valiska@sportmall.cz',
                      'Password': 'heurech15',
                      'Url_login': 'https://login.heureka.cz/login',
-                     'Shop': ['Spory.cz','Snowboards.cz','Kolonial.cz','Prodeti.cz'],
+                     'Shop': ['Sporty.cz','Snowboards.cz','Kolonial.cz','Prodeti.cz'],
                      'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?shop=5709&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=1786&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=53090&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=45555&from='+date+'&to='+date+'&cat=-4'] }
 
 dict['Heureka.cz']['Login_2'] = {'Login': 'heureka@bigbrands.cz',
@@ -72,8 +72,8 @@ br.open('https://login.heureka.cz/login')
 br.select_form(nr=0)
 
 # User credentials
-br.form['mail'] = 'valiska@sportmall.cz'
-br.form['password'] = 'heurech15'
+br.form['mail'] = dict['Heureka.cz']['Login_1']['Login']
+br.form['password'] = dict['Heureka.cz']['Login_1']['Password']
 
 # Login
 br.submit()
@@ -81,9 +81,8 @@ br.submit()
 from lxml import html
 import requests
 
-shop = 'Kolonial.cz'
-date = '2015-09-29'
-page = br.open('http://sluzby.heureka.cz/obchody/statistiky/?from=2015-09-29&to=2015-10-29&shop=53090&cat=-4').read()
+shop = dict['Heureka.cz']['Login_1']['Shop'][0]
+page = br.open(dict['Heureka.cz']['Login_1']['Url_stats'][0]).read()
 tree = html.fromstring(page)
 
 soup1 = BeautifulSoup(page)
