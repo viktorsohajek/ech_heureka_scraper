@@ -92,7 +92,7 @@ keys = ['name', 'visits', 'cpc', 'costs', 'currency','shop','date']
 #csv.register_dialect('singlequote', quotechar="'", quoting=csv.QUOTE_ALL)
 #csv.register_dialect('escaped', escapechar='\\', doublequote=False, quoting=csv.QUOTE_NONE)
 
-with open('result.csv', 'wb') as output_file:
+with open('/data/out/tables/result.csv', 'wb') as output_file:
     dict_writer = csv.DictWriter(output_file, keys, quoting=csv.QUOTE_NONNUMERIC)
     dict_writer.writeheader()
     dict_writer.writerows(L)
