@@ -18,9 +18,9 @@ dict['Zbozi.cz'] = {}
 dict['Heureka.cz']['Login_1'] = {'Login': 'valiska@sportmall.cz',
                      'Password': 'heurech15',
                      'Url_login': 'https://login.heureka.cz/login',
-                     'Shop': ['Sporty.cz','Snowboards.cz','Kolonial.cz','Prodeti.cz'],
-                     'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?shop=5709&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=1786&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=53090&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=45555&from='+date+'&to='+date+'&cat=-4'],
-                     'Storage_name': ['heureka_sm.csv','heureka_snb.csv','heureka_kn.csv','heureka_pd.csv']}
+                     'Shop': ['Prodeti.cz','Sporty.cz','Snowboards.cz','Kolonial.cz'],
+                     'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?shop=45555&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=5709&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=1786&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=53090&from='+date+'&to='+date+'&cat=-4'],
+                     'Storage_name': ['heureka_pd.csv','heureka_sm.csv','heureka_snb.csv','heureka_kn.csv']}
 
 dict['Heureka.cz']['Login_2'] = {'Login': 'heureka@bigbrands.cz',
                      'Password': 'ecommerceheureka',
@@ -36,6 +36,13 @@ dict['Heureka.cz']['Login_3'] = {'Login': 'info@limal.cz',
                      'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?from='+date+'&to='+date+'&shop=6590&cat=-4'],
                      'Storage_name': ['heureka_ro.csv']}
 
+# Cisti stringy obsahujici cislo a menu od mezer a rozpada je na dva stringy : hodnotu a menu
+def sanitizeStrings(text) :
+    textSplitted = text.string.rsplit('&',1)
+    firstResultTemp  = textSplitted[0].replace('&nbsp;','') #pro pripad, ze je cislo vetsi nez 999 a cislo je ve formatu 'X XXX'
+    firstResult = float(firstResultTemp.replace(',','.'))
+    secondResult = textSplitted[1]
+    return firstResult, secondResult
 
 for login in dict['Heureka.cz'].keys():
     # Browser
@@ -93,17 +100,21 @@ for login in dict['Heureka.cz'].keys():
             cells = cells[0:4] #chceme jen jmeno vyhledavace a prvni tri hodnty
             if len(cells) >= 4 :
                 # costs cisteni a uprava
-                costsWithCurrency = cells[3].string.split('&')
-                costs = float(costsWithCurrency[0].replace(',','.'))
-                currency = costsWithCurrency[1]
+                temp = sanitizeStrings(cells[3])
+                costs = temp[0]
+                currency = temp[1]
                 if currency == u'nbsp;Kč' :
                     currency = 'CZK'
                     #doplnit eura
                 # cpc cisteni a uprava
-                cpcWithCurrency = cells[2].string.split('&')
-                cpc = float(cpcWithCurrency[0].replace(',','.'))
+                print(costs)
+                print(currency)
+                temp = sanitizeStrings(cells[2])
+                cpc = temp[0]
+
                 # visits cisteni a uprava
                 visits = float(cells[1].string)
+
                 # name cisteni a uprava
                 name = cells[0].string
                 if name == None :
