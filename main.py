@@ -20,18 +20,22 @@ parameters = cfg.getParameters()
 #list shopu
 dict={}
 dict['Heureka.cz'] = {}
-dict['Zbozi.cz'] = {}
-dict['Heureka.cz']['Login_1'] = parameters
+dict['Heureka.cz']['Login_1'] = {'Login': parameters.get('Login1').get('Login'),
+                     'Password': parameters.get('Login1').get('Password'),
+                     'Url_login': 'https://login.heureka.cz/login',
+                     'Shop': ['Prodeti.cz','Sporty.cz','Snowboards.cz','Kolonial.cz'],
+                     'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?shop=45555&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=5709&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=1786&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=53090&from='+date+'&to='+date+'&cat=-4'],
+                     'Storage_name': ['heureka_pd.csv','heureka_sm.csv','heureka_snb.csv','heureka_kn.csv']}
 
-dict['Heureka.cz']['Login_2'] = {'Login': 'heureka@bigbrands.cz',
-                     'Password': 'ecommerceheureka',
+dict['Heureka.cz']['Login_2'] = {'Login': parameters.get('Login_2').get('Login'),
+                     'Password': parameters.get('Login_2').get('Password'),
                      'Url_login': 'https://login.heureka.cz/login',
                      'Shop': ['BigBrands.cz'],
                      'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?from='+date+'&to='+date+'&shop=42893&cat=-4'],
                      'Storage_name': ['heureka_bb.csv'] }
 
-dict['Heureka.cz']['Login_3'] = {'Login': 'info@limal.cz',
-                     'Password': 'heureka123456',
+dict['Heureka.cz']['Login_3'] = {'Login': parameters.get('Login_3').get('Login'),
+                     'Password': parameters.get('Login_3').get('Password'),
                      'Url_login': 'https://login.heureka.cz/login',
                      'Shop': ['Rozbaleno.cz'],
                      'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?from='+date+'&to='+date+'&shop=6590&cat=-4'],
