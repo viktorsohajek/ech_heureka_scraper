@@ -13,7 +13,7 @@ yesterday = date.today() - timedelta(1)
 date = yesterday.strftime('%Y-%m-%d')
 
 # initialize KBC configuration 
-cfg = docker.Config()
+cfg = docker.Config('/data/')
 # validate application parameters
 parameters = cfg.getParameters()
 
