@@ -5,22 +5,23 @@ import cookielib
 from BeautifulSoup import BeautifulSoup
 import html2text
 import csv # pro exportovani do CSV
+from keboola import docker
 
 # date input
 from datetime import date, timedelta
 yesterday = date.today() - timedelta(1)
 date = yesterday.strftime('%Y-%m-%d')
 
+# initialize KBC configuration 
+cfg = docker.Config()
+# validate application parameters
+parameters = cfg.getParameters()
+
 #list shopu
 dict={}
 dict['Heureka.cz'] = {}
 dict['Zbozi.cz'] = {}
-dict['Heureka.cz']['Login_1'] = {'Login': 'valiska@sportmall.cz',
-                     'Password': 'heurech15',
-                     'Url_login': 'https://login.heureka.cz/login',
-                     'Shop': ['Prodeti.cz','Sporty.cz','Snowboards.cz','Kolonial.cz'],
-                     'Url_stats': ['http://sluzby.heureka.cz/obchody/statistiky/?shop=45555&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=5709&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=1786&from='+date+'&to='+date+'&cat=-4','http://sluzby.heureka.cz/obchody/statistiky/?shop=53090&from='+date+'&to='+date+'&cat=-4'],
-                     'Storage_name': ['heureka_pd.csv','heureka_sm.csv','heureka_snb.csv','heureka_kn.csv']}
+dict['Heureka.cz']['Login_1'] = parameters
 
 dict['Heureka.cz']['Login_2'] = {'Login': 'heureka@bigbrands.cz',
                      'Password': 'ecommerceheureka',
