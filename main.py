@@ -141,7 +141,8 @@ for i in range(len(scrape_dates)):
 	                cpc = temp[0]
 
 	                # visits cisteni a uprava
-	                visits = float(cells[1].string)
+	                visits_temp = cells[1].string.replace('&nbsp;','') #pro pripad, ze je cislo vetsi nez 999 a cislo je ve formatu 'X XXX'
+			visits = float(visits_temp)
 
 	                # name cisteni a uprava
 	                name = cells[0].string
