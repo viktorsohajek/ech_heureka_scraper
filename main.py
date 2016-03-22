@@ -12,7 +12,7 @@ from datetime import date, timedelta # date input
 # initialize KBC configuration 
 cfg = docker.Config('/data/')
 # validate application parameters
-parameters = cfg.getParameters()
+parameters = cfg.get_parameters()
 
 
 # date format checker
