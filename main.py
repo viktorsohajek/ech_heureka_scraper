@@ -22,20 +22,34 @@ def validate(date_text):
     except ValueError:
         raise ValueError("Incorrect data format, should be YYYY-MM-DD")
 
+#initialize scrape_dates vector
 scrape_dates={}
 
-#date preset from input parameters
+#date preset from input parameters. Bud date_preset='Yesteday'/'last_week' nebo vsechny datumy ve stanovenem intervalu
+#! parametr 'date_preset' ma prednost.
 if parameters.get('Date_preset')=='Yesterday':
 	yesterday = date.today() - timedelta(1)
-	scrape_dates[0] = yesterday.strftime('%Y-%m-%d')
+	d1=yesterday
+	d2=d1
+elif parameters.get('Date_preset')=='last_week':
+	d1 = date.today() - timedelta(7)
+	d2 = date.today() - timedelta(1)
+elif parameters.get('Date_preset')=='last_31_days':
+	d1 = date.today() - timedelta(31)
+	d2 = date.today() - timedelta(1)	
+elif parameters.get('Date_preset')=='last_year':
+	d1 = date.today() - timedelta(365)
+	d2 = date.today() - timedelta(1)
+#customdate	if not preseted
 else:
 	validate(parameters.get('Date_from'))
 	validate(parameters.get('Date_to'))
 	d1=datetime.datetime.strptime(parameters.get('Date_from'),'%Y-%m-%d')
 	d2=datetime.datetime.strptime(parameters.get('Date_to'),'%Y-%m-%d')
-	delta = d2 - d1
-	for i in range(delta.days+1):
-		scrape_dates[i]=(d1+timedelta(i)).strftime('%Y-%m-%d')
+#vypocet timedelty, ktera urcuje delku tahanych dni zpet	
+delta = d2 - d1
+for i in range(delta.days+1):
+	scrape_dates[i]=(d1+timedelta(i)).strftime('%Y-%m-%d')
 
 
 for i in range(len(scrape_dates)):
@@ -83,8 +97,6 @@ for i in range(len(scrape_dates)):
 		    # User credentials
 		    br.form['mail'] = parameters.get('Entity').get(entity).get(login).get('Login')
 		    br.form['password'] = parameters.get('Entity').get(entity).get(login).get('Password')
-		    print parameters.get('Entity').get(entity).get(login).get('Login')
-		    print parameters.get('Entity').get(entity).get(login).get('Password')
 		    # Login
 		    br.submit()
 
@@ -98,6 +110,7 @@ for i in range(len(scrape_dates)):
 		    		Url_stats='http://sluzby.heureka.cz/obchody/statistiky/?shop='+parameters.get('Entity').get(entity).get(login).get('Shop_id')[index]+'&from='+scrape_date+'&to='+scrape_date+'&cat=-4'
 		        if entity=='Heureka.sk':
 		    		Url_stats='http://sluzby.heureka.sk/obchody/statistiky/?shop='+parameters.get('Entity').get(entity).get(login).get('Shop_id')[index]+'&from='+scrape_date+'&to='+scrape_date+'&cat=-4'
+		        print "Beginning to extract stats from "+Url_stats
 		        shop = parameters.get('Entity').get(entity).get(login).get('Shop_name')[index]
 		        page = br.open(Url_stats).read()
 		        tree = html.fromstring(page)
